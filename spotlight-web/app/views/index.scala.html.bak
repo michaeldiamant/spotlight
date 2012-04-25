@@ -1,0 +1,104 @@
+@main("Welcome to Play 2.0") {
+
+ <!-- @play20.welcome(message)  -->
+<!--<script src="@routes.Assets.at("javascripts/index.js")" type="text/javascript"></script>-->
+
+<ul id="bars"></ul>
+
+<div id="chartdiv" style="height:400px;width:800px; "></div>
+
+<script id="source" type="text/javascript">
+    $(document).ready(function(){
+        var line = [[]];
+
+        var ajaxDataRenderer = function(url, plot, options) {
+        var ret = null;
+        $.ajax({
+            async: false,
+            url: "/spy",
+            dataType:"json",
+            success: function(data) {
+                <!--var bars = jQuery.parseJSON(data);-->
+                $.each(data, function(index, bar) {
+                  line[0].push([bar.date, Number(bar.open), Number(bar.high), Number(bar.low), Number(bar.close)]);
+                });
+                return line;
+            }
+        });
+
+        return line;
+    };
+
+    // The url for our json data
+    var jsonurl = "/spy";
+
+    var plot2 = $.jqplot('chartdiv', [],{
+            title: "SPY time series",
+            dataRenderer: ajaxDataRenderer,
+            axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer}},
+            series: [{renderer:$.jqplot.OHLCRenderer, rendererOptions:{candleStick:true}}],
+            highlighter: {
+            show: true,
+            showMarker: false,
+            tooltipAxes: 'y',
+            useAxesFormatters: false,
+            yvalues: 4,
+            formatString:'<table class="jqplot-highlighter"> \
+            <tr><td>open:</td><td>%s</td></tr> \
+            <tr><td>hi:</td><td>%s</td></tr> \
+            <tr><td>low:</td><td>%s</td></tr> \
+            <tr><td>close:</td><td>%s</td></tr></table>'
+            },
+        });
+    });
+</script>
+
+
+<p>hi</p>
+
+
+<div id="chartdiv2" style="height:400px;width:800px; "></div>
+
+        <p>heyoooo</p>
+<script id="source2" type="text/javascript">
+    $(document).ready(function(){
+        var line = [[]];
+
+        var ajaxDataRenderer = function(url, plot, options) {
+        var ret = null;
+        $.ajax({
+            async: false,
+            url: "/industry",
+            dataType:"json",
+            success: function(data) {
+                $.each(data, function(index, bar) {
+                    line[0].push([Number(bar.roe), bar.symbol]);
+                });
+                return line;
+            }
+        });
+
+        return line;
+        };
+
+
+        var plot2 = $.jqplot('chartdiv2', [],{
+            title: "Industry ETF 30 day returns",
+            dataRenderer: ajaxDataRenderer,
+            seriesDefaults: {
+                renderer:$.jqplot.BarRenderer,
+                pointLabels: { show: true, location: 'e', edgeTolerance: -15,
+                formatString:'%s' },
+                shadowAngle: 135,
+                rendererOptions: { barDirection: 'horizontal', },
+            },
+            axes: {
+                yaxis: {
+                    renderer: $.jqplot.CategoryAxisRenderer
+                }
+            },
+        });
+    });
+</script>
+
+}
