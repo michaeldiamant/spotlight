@@ -2,4 +2,4 @@ Spotlight
 
 1. Start spotlight-engine via SpotlightEngineRunner.
 2. Start spotlight-web via Play! SBT console.
-3. Checkout http://localhost:9000/.
+3. Check out http://localhost:9000/.
