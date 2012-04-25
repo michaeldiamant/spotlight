@@ -1,0 +1,47 @@
+@(chartIds: List[String])
+
+@chartDivId(chartId: String) = {chart-@chartId}
+
+@main("Spotlight") {
+    <h1>Welcome to Spotlight!</h1>
+
+
+    @chartIds.map { chartId =>
+
+        <div id="@chartDivId(chartId)" style="height:200px;width:400px;"></div>
+
+        <script type="text/javascript">
+            var title = " SPY vs UGA Correlation";
+
+            $(document).ready(function() {
+                var line = [[]];
+
+                var ajaxDataRenderer = function(url, plot, options) {
+                    var ret = null;
+                    $.ajax({
+                        async: false,
+                        url: "/charts/@chartId",
+                        dataType:"json",
+                        success: function(chart) {
+                            title = chart.title;
+
+                            $.each(chart.data, function(index, data) {
+                                line[0].push([data.date, Number(data.correlation)]);
+                            });
+                            return line;
+                        }
+                    });
+
+                    return line;
+                };
+
+
+                var plot2 = $.jqplot('@chartDivId(chartId)', [], {
+                    title: title,
+                    dataRenderer: ajaxDataRenderer,
+                    axes:{xaxis:{renderer:$.jqplot.DateAxisRenderer}},
+                });
+            });
+        </script>
+    }
+}
