@@ -1,3 +1,10 @@
+'use strict';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
+
 var PriceLevel = React.createClass({
   render: function() {
     return (
@@ -119,14 +126,19 @@ var OrderBookSimulator = React.createClass({
     return (
       <div>
         <CancelOrderForm orders={this.state.data} onCancelRequestSubmitted={this.onCancelRequestSubmitted} />
-        <AddOfferForm onOfferSubmitted={this.onOfferSubmitted} />
+        <div style={{display: 'inline-block'}}>
+          <AddOfferForm onOfferSubmitted={this.onOfferSubmitted} />
+        </div>
+        <div style={{display: 'inline-block'}}>
+          <AddBidForm onBidSubmitted={this.onOfferSubmitted} />
+        </div>
         <OrderBook offers={this.state.data}/>
       </div>
     );
   }
 });
 
-var AddOfferForm = React.createClass({
+var AddOrderForm = React.createClass({
   getInitialState: function(e) {
     return { price: '' };
   },
@@ -139,19 +151,39 @@ var AddOfferForm = React.createClass({
     if (!price) {
       return;
     }
-    this.props.onOfferSubmitted({id: Date.now(), price: price});
+    this.props.onOrderSubmitted({id: Date.now(), price: price, side: this.props.side.toLowerCase() });
   },
   render: function() {
+    var label = "Submit " + this.props.side.toLowerCase();
     return (
-      <form onSubmit={this.handleSubmit}>
-        <p>Price: $<input type="text" onChange={this.onPriceChange} value={this.state.price}/></p>
-        <input type="submit" disabled={!this.state.price} value="Submit offer" />
-      </form>
+      <div>
+        <h1>Add {this.props.side} form</h1>
+        <form onSubmit={this.handleSubmit}>
+          <p>Price: $<input type="text" onChange={this.onPriceChange} value={this.state.price}/></p>
+          <input type="submit" disabled={!this.state.price} value={label} />
+        </form>
+      </div>
+    );
+  }
+});
+
+var AddOfferForm = React.createClass({
+  render: function() {
+    return (
+      <AddOrderForm side="Offer" onOrderSubmitted={this.props.onOfferSubmitted} />
+    );
+  }
+});
+
+var AddBidForm = React.createClass({
+  render: function() {
+    return (
+      <AddOrderForm side="Bid" onOrderSubmitted={this.props.onBidSubmitted} />
     );
   }
 });
 
 ReactDOM.render(
   <OrderBookSimulator />,
-  document.getElementById('content')
+  document.getElementById('app')
 );
