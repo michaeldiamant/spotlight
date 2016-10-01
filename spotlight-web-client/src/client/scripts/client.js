@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 var PriceLevel = React.createClass({
   render: function() {
@@ -26,8 +27,8 @@ var BookSide = React.createClass({
     });
     return (
       <div>
-        <h2>{this.props.name}</h2>
-        <table>
+        <strong>{this.props.name}</strong>
+        <table className="table table-striped table-condensed table-bordered">
           <tbody>
             {renderedOrders}
           </tbody>
@@ -41,13 +42,19 @@ var OrderBook = React.createClass({
   render: function() {
     return (
       <div>
-        <h1>Order Book</h1>
-          <div style={{display: 'inline-block'}}>
+        <div className="row">
+          <div className="col-md-4">
+            <p className="text-center"><strong>Order Book</strong></p>
+          </div>
+        </div>  
+        <div className="row">
+          <div className="col-md-2">
             <BookSide name="Bids" />
           </div>
-          <div style={{display: 'inline-block'}}>
+          <div className="col-md-2">
             <BookSide name="Offers" orders={this.props.offers} /> 
           </div>
+        </div>
       </div>
     );
   }
@@ -91,7 +98,7 @@ var CancelOrderForm = React.createClass({
   render: function() {
     return (
       <div>
-         <h1>Order cancel request form</h1>
+         <strong>Order cancel request form</strong>
          <OrderBookSearch orders={this.props.orders} onOrderSelected={this.onOrderSelected} />
          {
            this.state.selectedOrder && <div>
@@ -125,14 +132,22 @@ var OrderBookSimulator = React.createClass({
   render: function() {
     return (
       <div>
-        <CancelOrderForm orders={this.state.data} onCancelRequestSubmitted={this.onCancelRequestSubmitted} />
-        <div style={{display: 'inline-block'}}>
-          <AddOfferForm onOfferSubmitted={this.onOfferSubmitted} />
+        <div className="row">
+          <div className="col-md-2">
+            <AddBidForm onBidSubmitted={this.onOfferSubmitted} />
+          </div>
+          <div className="col-md-2">
+            <AddOfferForm onOfferSubmitted={this.onOfferSubmitted} />
+          </div>
+          <div className="col-md-4">
+            <CancelOrderForm orders={this.state.data} onCancelRequestSubmitted={this.onCancelRequestSubmitted} />
+          </div>
         </div>
-        <div style={{display: 'inline-block'}}>
-          <AddBidForm onBidSubmitted={this.onOfferSubmitted} />
+        <div className="row">
+          <div className="col-md-8 col-md-offset-4">
+            <OrderBook offers={this.state.data}/>
+          </div>
         </div>
-        <OrderBook offers={this.state.data}/>
       </div>
     );
   }
@@ -157,7 +172,7 @@ var AddOrderForm = React.createClass({
     var label = "Submit " + this.props.side.toLowerCase();
     return (
       <div>
-        <h1>Add {this.props.side} form</h1>
+        <strong>Add {this.props.side} form</strong>
         <form onSubmit={this.handleSubmit}>
           <p>Price: $<input type="text" onChange={this.onPriceChange} value={this.state.price}/></p>
           <input type="submit" disabled={!this.state.price} value={label} />
