@@ -108,7 +108,7 @@ var CancelOrderForm = React.createClass({
          }
         <form onSubmit={this.handleSubmit}>
           <input type="hidden" value="{this.state.selectedOrder.id}" />
-          <input type="submit" disabled={!this.state.selectedOrder} value="Cancel order" />
+          <input type="submit" className="form-control btn btn-default" disabled={!this.state.selectedOrder} value="Cancel order" />
         </form>
       </div>
     );
@@ -173,9 +173,13 @@ var AddOrderForm = React.createClass({
     return (
       <div>
         <strong>Add {this.props.side} form</strong>
-        <form onSubmit={this.handleSubmit}>
-          <p>Price: $<input type="text" onChange={this.onPriceChange} value={this.state.price}/></p>
-          <input type="submit" disabled={!this.state.price} value={label} />
+        <form className="form-inline" onSubmit={this.handleSubmit}>
+          <div className="input-group">
+            <label className="sr-only">Price</label>
+            <div className="input-group-addon">$</div>
+            <input type="text" className="form-control" onChange={this.onPriceChange} value={this.state.price}/>
+          </div>
+          <input className="form-control btn btn-default" type="submit" disabled={!this.state.price} value={label} />
         </form>
       </div>
     );
