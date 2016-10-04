@@ -5,38 +5,7 @@ import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import 'bootstrap/dist/css/bootstrap.css';
-
-var PriceLevel = React.createClass({
-  render: function() {
-    return (
-      <tr> 
-        <td>{this.props.price}</td>
-        <td>{this.props.size}</td>
-      </tr>
-    );
-  }
-});
-
-var BookSide = React.createClass({
-  render: function() {
-    var safeOrders = (this.props.orders ? this.props.orders : [])
-    var renderedOrders = safeOrders.map(function(order) {
-      return (
-        <PriceLevel key={order.id} price={order.price} size="1" /> 
-      );
-    });
-    return (
-      <div>
-        <strong>{this.props.name}</strong>
-        <table className="table table-striped table-condensed table-bordered">
-          <tbody>
-            {renderedOrders}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-});
+import BookSide from '../../app/BookSide';
 
 var OrderBook = React.createClass({
   render: function() {
