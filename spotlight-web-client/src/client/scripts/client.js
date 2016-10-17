@@ -65,35 +65,42 @@ var CancelOrderForm = React.createClass({
 
 var OrderBookSimulator = React.createClass({
   getInitialState: function() {
-    return { data: [] };
+    return { bids: [], offers: [] };
   },
   onOfferSubmitted: function(offer) {
-    this.state.data.push(offer)
-    this.setState({ data: this.state.data });
+    this.state.offers.push(offer);
+    this.setState({ bids: this.state.bids, offers: this.state.offers });
+  },
+  onBidSubmitted: function(bid) {
+    this.state.bids.push(bid);
+    this.setState({ bids: this.state.bids, offers: this.state.offers });
   },
   onCancelRequestSubmitted: function(cancelRequest) {
-    var filteredOrders = this.state.data.filter(function(o) {
+    function cancelOrder(o) {
       return o.id != cancelRequest.orderId;
-    });
-    this.setState({ data: filteredOrders });
+    };
+    var filteredBids = this.state.bids.filter(cancelOrder);
+    var filteredOffers = this.state.offers.filter(cancelOrder);
+    this.setState({ bids: filteredBids, offers: filteredOffers });
   },
   render: function() {
     return (
       <div>
         <div className="row">
           <div className="col-md-2">
-            <AddBidForm onBidSubmitted={this.onOfferSubmitted} />
+            <AddBidForm onBidSubmitted={this.onBidSubmitted} />
           </div>
           <div className="col-md-2">
             <AddOfferForm onOfferSubmitted={this.onOfferSubmitted} />
           </div>
           <div className="col-md-4">
-            <CancelOrderForm orders={this.state.data} onCancelRequestSubmitted={this.onCancelRequestSubmitted} />
+            <CancelOrderForm orders={this.state.bids.concat(this.state.offers)} 
+              onCancelRequestSubmitted={this.onCancelRequestSubmitted} />
           </div>
         </div>
         <div className="row">
           <div className="col-md-8 col-md-offset-4">
-            <OrderBook offers={this.state.data}/>
+            <OrderBook bids={this.state.bids} offers={this.state.offers} />
           </div>
         </div>
       </div>
