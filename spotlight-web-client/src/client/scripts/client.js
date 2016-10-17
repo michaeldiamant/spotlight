@@ -5,29 +5,8 @@ import ReactDOM from 'react-dom';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import BookSide from '../../app/BookSide';
+import OrderBook from '../../app/OrderBook';
 
-var OrderBook = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <div className="row">
-          <div className="col-md-4">
-            <p className="text-center"><strong>Order Book</strong></p>
-          </div>
-        </div>  
-        <div className="row">
-          <div className="col-md-2">
-            <BookSide name="Bids" />
-          </div>
-          <div className="col-md-2">
-            <BookSide name="Offers" orders={this.props.offers} /> 
-          </div>
-        </div>
-      </div>
-    );
-  }
-});
 
 var OrderBookSearch = React.createClass({
   onSelectChange: function (selectItem) {
