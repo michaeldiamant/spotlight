@@ -14,7 +14,7 @@ class OrderBook extends React.Component {
         </div>  
         <div className="row">
           <div className="col-md-2">
-            <BookSide name="Bids" />
+            <BookSide name="Bids" orders={this.props.bids} />
           </div>
           <div className="col-md-2">
             <BookSide name="Offers" orders={this.props.offers} /> 
