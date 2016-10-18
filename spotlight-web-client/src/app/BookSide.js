@@ -8,7 +8,7 @@ class BookSide extends React.Component {
     var safeOrders = (this.props.orders ? this.props.orders : [])
     var renderedOrders = safeOrders.map(function(order) {
       return (
-        <PriceLevel key={order.id} price={order.price} size="1" /> 
+        <PriceLevel key={order.id} price={order.price} size='1' />
       );
     });
     return (
