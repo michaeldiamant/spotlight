@@ -12,9 +12,14 @@
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "bootstrap": "^3.3.7",
+    "chai": "^3.5.0",
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
+    "jsdom": "^9.8.0",
+    "jsdom-global": "^2.1.0",
     "less-loader": "^2.2.3",
+    "mocha": "^3.1.2",
+    "react-addons-test-utils": "^15.3.2",
     "react-bootstrap": "^0.30.3",
     "react-select": "^1.0.0-rc.2",
     "style-loader": "^0.13.1",
@@ -23,8 +28,8 @@
     "webpack-dev-server": "^1.16.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "mocha --compilers js:babel-register --recursive",
+    "start": "node src/server/server.js"
   },
   "author": "",
   "license": "ISC"
