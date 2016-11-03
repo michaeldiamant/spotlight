@@ -1,0 +1,10 @@
+exports[`test price level renders price and size 1`] = `
+<tr>
+  <td>
+    2.01
+  </td>
+  <td>
+    1
+  </td>
+</tr>
+`;
