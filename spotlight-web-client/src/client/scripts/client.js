@@ -8,13 +8,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import OrderBook from '../../app/OrderBook';
 
 
-var OrderBookSearch = React.createClass({
+const OrderBookSearch = React.createClass({
   onSelectChange: function (selectItem) {
     this.props.onOrderSelected(selectItem.value);
   },
   render: function() {
-    var safeOrders = (this.props.orders ? this.props.orders : [])
-    var renderedOrders = safeOrders.map(function(order) {
+    const safeOrders = (this.props.orders ? this.props.orders : [])
+    const renderedOrders = safeOrders.map(function(order) {
       return (
         { value: order, label: order.id }
       );
@@ -25,7 +25,7 @@ var OrderBookSearch = React.createClass({
   }
 });
 
-var CancelOrderForm = React.createClass({
+const CancelOrderForm = React.createClass({
   getInitialState: function() {
     return {
       selectedOrder: null
@@ -39,7 +39,7 @@ var CancelOrderForm = React.createClass({
     if (!this.state.selectedOrder) {
       return;
     }
-    var selectedId = this.state.selectedOrder.id;
+    const selectedId = this.state.selectedOrder.id;
     this.setState({ selectedOrder: null });
     this.props.onCancelRequestSubmitted({ id: Date.now(), orderId: selectedId });
   },
@@ -63,7 +63,7 @@ var CancelOrderForm = React.createClass({
   }
 });
 
-var OrderBookSimulator = React.createClass({
+const OrderBookSimulator = React.createClass({
   getInitialState: function() {
     return { bids: [], offers: [] };
   },
@@ -79,8 +79,8 @@ var OrderBookSimulator = React.createClass({
     function cancelOrder(o) {
       return o.id != cancelRequest.orderId;
     };
-    var filteredBids = this.state.bids.filter(cancelOrder);
-    var filteredOffers = this.state.offers.filter(cancelOrder);
+    const filteredBids = this.state.bids.filter(cancelOrder);
+    const filteredOffers = this.state.offers.filter(cancelOrder);
     this.setState({ bids: filteredBids, offers: filteredOffers });
   },
   render: function() {
@@ -108,7 +108,7 @@ var OrderBookSimulator = React.createClass({
   }
 });
 
-var AddOrderForm = React.createClass({
+const AddOrderForm = React.createClass({
   getInitialState: function(e) {
     return { price: '' };
   },
@@ -117,14 +117,14 @@ var AddOrderForm = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var price = this.state.price.trim();
+    const price = this.state.price.trim();
     if (!price) {
       return;
     }
     this.props.onOrderSubmitted({id: Date.now(), price: price, side: this.props.side.toLowerCase() });
   },
   render: function() {
-    var label = "Submit " + this.props.side.toLowerCase();
+    const label = "Submit " + this.props.side.toLowerCase();
     return (
       <div>
         <strong>Add {this.props.side} form</strong>
@@ -141,7 +141,7 @@ var AddOrderForm = React.createClass({
   }
 });
 
-var AddOfferForm = React.createClass({
+const AddOfferForm = React.createClass({
   render: function() {
     return (
       <AddOrderForm side="Offer" onOrderSubmitted={this.props.onOfferSubmitted} />
@@ -149,7 +149,7 @@ var AddOfferForm = React.createClass({
   }
 });
 
-var AddBidForm = React.createClass({
+const AddBidForm = React.createClass({
   render: function() {
     return (
       <AddOrderForm side="Bid" onOrderSubmitted={this.props.onBidSubmitted} />
